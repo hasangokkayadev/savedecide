@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "Save & Decide",
+  "version": "1.0.0",
+  "description": "Save LinkedIn posts and decide why you're saving them",
+  "permissions": ["activeTab", "scripting", "storage"],
+  "host_permissions": ["*://linkedin.com/*", "*://www.linkedin.com/*"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon-16.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://linkedin.com/*", "*://www.linkedin.com/*"],
+      "js": ["i18n.js", "content.js"],
+      "css": ["styles.css"]
+    }
+  ]
+}
