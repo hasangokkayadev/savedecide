@@ -114,7 +114,7 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .savedecide-option {
@@ -273,6 +273,7 @@
   align-items: center;
   justify-content: center;
   line-height: 1;
+  margin-bottom: 16px;
 }
 
 .savedecide-add-category-btn:hover {
@@ -282,6 +283,43 @@
 
 .savedecide-add-category-btn:active {
   transform: scale(0.98);
+}
+
+/* Category View Styles */
+#categoryView {
+  display: none;
+}
+
+#categoriesList {
+  display: none;
+}
+
+/* Compact Link Rows */
+#linksContainer > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border-color);
+  gap: 8px;
+  line-height: 1.4;
+}
+
+#linksContainer > div:last-child {
+  border-bottom: none;
+}
+
+#linksContainer > div:hover {
+  background-color: var(--bg-secondary);
+}
+
+/* Scrollable containers */
+#linksContainer,
+#categoriesContainer {
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
 }
 
 /* Responsive */
@@ -298,5 +336,10 @@
   .savedecide-btn {
     padding: 6px 10px;
     font-size: 11px;
+  }
+
+  #linksContainer,
+  #categoriesContainer {
+    max-height: 300px;
   }
 }

@@ -20,6 +20,12 @@ const translations = {
     "popup.addCategory": "Add new category",
     "popup.categoryNamePrompt": "Enter category name:",
 
+    // Category View
+    "category.title": "Saved links",
+    "category.emptyState": "No links saved yet.",
+    "category.deleteHint": "Click × to remove",
+    "category.back": "Back",
+
     // Settings
     "settings.language": "Language",
     "settings.theme": "Theme",
@@ -45,6 +51,12 @@ const translations = {
     "popup.charCount": "karakter",
     "popup.addCategory": "Yeni kategori ekle",
     "popup.categoryNamePrompt": "Kategori adını girin:",
+
+    // Category View
+    "category.title": "Kaydedilen linkler",
+    "category.emptyState": "Henüz link kaydedilmedi.",
+    "category.deleteHint": "Silmek için × tıkla",
+    "category.back": "Geri",
 
     // Settings
     "settings.language": "Dil",

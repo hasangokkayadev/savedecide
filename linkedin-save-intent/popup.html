@@ -86,6 +86,74 @@
         </button>
       </div>
 
+      <!-- Category View -->
+      <div id="categoryView" style="display: none">
+        <!-- Back Button -->
+        <button
+          id="backBtn"
+          style="
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--accent-color);
+            font-weight: 600;
+            padding: 0 0 12px 0;
+            margin-bottom: 12px;
+          "
+        >
+          ← <span id="backText">Back</span>
+        </button>
+
+        <!-- Category Title -->
+        <h2
+          id="categoryTitle"
+          style="
+            margin: 0 0 12px 0;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+          "
+        ></h2>
+
+        <!-- Links Container -->
+        <div
+          id="linksContainer"
+          style="
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+          "
+        ></div>
+
+        <!-- Empty State -->
+        <div
+          id="emptyState"
+          style="
+            text-align: center;
+            padding: 24px 12px;
+            color: var(--text-secondary);
+            font-size: 13px;
+          "
+        >
+          <span id="emptyStateText">No links saved yet.</span>
+        </div>
+      </div>
+
+      <!-- Categories List -->
+      <div id="categoriesList" style="display: none">
+        <div
+          style="
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+          "
+          id="categoriesContainer"
+        ></div>
+      </div>
+
       <!-- Main Content -->
       <div id="mainContent">
         <p
@@ -98,26 +166,6 @@
         >
           Select a category for this post
         </p>
-
-        <!-- Options -->
-        <div style="margin-bottom: 16px">
-          <div
-            id="categoriesContainer"
-            style="
-              display: flex;
-              flex-direction: column;
-              gap: 6px;
-              margin-bottom: 12px;
-            "
-          ></div>
-          <button
-            id="addCategoryBtn"
-            class="savedecide-add-category-btn"
-            title="Add new category"
-          >
-            +
-          </button>
-        </div>
 
         <!-- Note Input -->
         <div class="savedecide-note-group">

@@ -1,5 +1,73 @@
 // content.js - LinkedIn entegrasyonu
 
+// Kategorileri localStorage'dan al
+function getCategories() {
+  const saved = localStorage.getItem("savedecide_categories");
+  if (saved) {
+    return JSON.parse(saved);
+  }
+  // Varsayılan kategoriler
+  return [
+    { id: "lead", name: "Lead" },
+    { id: "content", name: "Content Idea" },
+    { id: "competitor", name: "Competitor" },
+    { id: "collaboration", name: "Collaboration" },
+    { id: "inspiration", name: "Inspiration" },
+    { id: "research", name: "Research" },
+    { id: "project", name: "Project" },
+    { id: "education", name: "Education" },
+  ];
+}
+
+// Kategorileri localStorage'a kaydet
+function saveCategories(categories) {
+  localStorage.setItem("savedecide_categories", JSON.stringify(categories));
+}
+
+// Kategorileri dinamik olarak render et
+function renderCategoriesInModal(categories, modal) {
+  const container = modal.querySelector(".savedecide-options");
+  container.innerHTML = "";
+
+  categories.forEach((category, index) => {
+    const div = document.createElement("div");
+    div.className = "savedecide-option";
+
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "category";
+    input.value = category.id;
+    input.id = `modal-${category.id}`;
+    if (index === 0) input.checked = true;
+
+    const label = document.createElement("label");
+    label.htmlFor = `modal-${category.id}`;
+    label.textContent = category.name;
+
+    div.appendChild(input);
+    div.appendChild(label);
+    container.appendChild(div);
+  });
+}
+
+// Yeni kategori ekle
+function addNewCategoryToModal(modal) {
+  const categoryName = prompt(t("popup.categoryNamePrompt"));
+  if (!categoryName || categoryName.trim() === "") {
+    return;
+  }
+
+  const categories = getCategories();
+  const newCategory = {
+    id: `custom-${Date.now()}`,
+    name: categoryName.trim(),
+  };
+
+  categories.push(newCategory);
+  saveCategories(categories);
+  renderCategoriesInModal(categories, modal);
+}
+
 // LinkedIn postlarını algıla ve buton ekle
 function initializeExtension() {
   // Mevcut postlara buton ekle
@@ -101,51 +169,53 @@ function openSaveModal(post) {
   // Modal içeriği
   const lang = getLanguage();
   const translations = getAllTranslations(lang);
+  const categories = getCategories();
 
   modal.innerHTML = `
-    <div class="savedecide-modal-header">
-      <h2 class="savedecide-modal-title">${translations["popup.title"]}</h2>
-    </div>
-    
-    <div class="savedecide-modal-body">
-      <div class="savedecide-options">
-        <div class="savedecide-option">
-          <input type="radio" id="modal-lead" name="category" value="lead" checked>
-          <label for="modal-lead">${translations["popup.lead"]}</label>
-        </div>
-        <div class="savedecide-option">
-          <input type="radio" id="modal-content" name="category" value="content">
-          <label for="modal-content">${translations["popup.content"]}</label>
-        </div>
-        <div class="savedecide-option">
-          <input type="radio" id="modal-competitor" name="category" value="competitor">
-          <label for="modal-competitor">${translations["popup.competitor"]}</label>
-        </div>
-      </div>
-      
-      <div class="savedecide-note-group">
-        <label class="savedecide-note-label">${translations["popup.note"]}</label>
-        <textarea class="savedecide-note-input" id="modal-note" maxlength="140" rows="3" placeholder=""></textarea>
-        <div class="savedecide-char-count">
-          <span id="modal-char-count">0</span> / 140 ${translations["popup.charCount"]}
-        </div>
-      </div>
-    </div>
-    
-    <div class="savedecide-modal-footer">
-      <button class="savedecide-btn savedecide-btn-primary" id="modal-save">${translations["popup.save"]}</button>
-      <button class="savedecide-btn savedecide-btn-secondary" id="modal-cancel">✕</button>
-    </div>
-  `;
+     <div class="savedecide-modal-header">
+       <h2 class="savedecide-modal-title">${translations["popup.title"]}</h2>
+     </div>
+     
+     <div class="savedecide-modal-body">
+       <div class="savedecide-options"></div>
+       
+       <button id="modal-add-category" class="savedecide-add-category-btn" title="Add new category">
+         +
+       </button>
+       
+       <div class="savedecide-note-group">
+         <label class="savedecide-note-label">${translations["popup.note"]}</label>
+         <textarea class="savedecide-note-input" id="modal-note" maxlength="140" rows="3" placeholder=""></textarea>
+         <div class="savedecide-char-count">
+           <span id="modal-char-count">0</span> / 140 ${translations["popup.charCount"]}
+         </div>
+       </div>
+     </div>
+     
+     <div class="savedecide-modal-footer">
+       <button class="savedecide-btn savedecide-btn-primary" id="modal-save">${translations["popup.save"]}</button>
+       <button class="savedecide-btn savedecide-btn-secondary" id="modal-cancel">✕</button>
+     </div>
+   `;
 
   overlay.appendChild(modal);
   document.body.appendChild(overlay);
+
+  // Kategorileri render et
+  renderCategoriesInModal(categories, modal);
 
   // Event listener'ları ekle
   const noteInput = modal.querySelector("#modal-note");
   noteInput.addEventListener("input", function () {
     document.getElementById("modal-char-count").textContent = this.value.length;
   });
+
+  // Kategori ekle butonu
+  modal
+    .querySelector("#modal-add-category")
+    .addEventListener("click", function () {
+      addNewCategoryToModal(modal);
+    });
 
   modal.querySelector("#modal-save").addEventListener("click", function () {
     const category = modal.querySelector(
